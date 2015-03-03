@@ -7,15 +7,19 @@ PHP module
 Shadow is implemented as PHP extension. Compile it using:
 
 ```bash
-/path/to/php/install/bin/phpize \
-sh configure --with-php-config=//path/to/php/install/bin/php-config
+/path/to/php/install/bin/phpize 
+./configure --with-php-config=//path/to/php/install/bin/php-config
 make
+make install
+make test
 ```
 
 Install it with 'make install' or just copy modules/shadow.so to PHP
 extensions directory. Add:
 
-`extension=shadow.so`
+```php
+extension=shadow.so
+```
 
 to the php.ini.
 
@@ -27,7 +31,9 @@ Shadow function
 
 Shadow has one main function:
 
-` void shadow(string template, string instance[, array instance_only])`
+```c
+void shadow(string template, string instance[, array instance_only])
+```
 
 -   template is the template directory
 -   instance is instance directory
@@ -36,8 +42,10 @@ Shadow has one main function:
 
 Other functions:
 
-` array shadow_get_config()`\
-` void shadow_clear_cache()`
+```php
+array shadow_get_config()
+void shadow_clear_cache()
+```
 
 Configuration parameters
 ------------------------
@@ -54,6 +62,7 @@ php.ini parameters for shadow. Default is fine for most cases.
 Debug level
 -----------
 
+```c
 DEBUG_FULLPATH     (1<<0)   1
 DEBUG_OPEN         (1<<1)   2
 DEBUG_STAT         (1<<2)   4
@@ -68,6 +77,7 @@ DEBUG_FAIL         (1<<10)  1024
 DEBUG_TOUCH        (1<<11)  2048
 DEBUG_CHMOD        (1<<11)  4096
 DEBUG_OVERRIDE     (1<<12)  8192
+```
 
 For enable all DEBUG message shadow.xdebug must be equal 8191
 
@@ -84,13 +94,15 @@ Apache configuration
 
 Set up Apache virtual hosts as follows:
 
-` `<VirtualHost shadowmagic.com>`    `\
-`   DocumentRoot /path/to/template/sugarcrm     `\
-`   ServerName shadow.com     `\
-`   ServerAlias *.shadow.com         `\
-`   RewriteEngine On         `\
-`   RewriteRule ^(/(cache|custom)/.*) /path/to/instances/%{SERVER_NAME}/$1 `\
-` `</VirtualHost>` `
+```bash
+<VirtualHost shadowmagic.com>
+   DocumentRoot /path/to/template/sugarcrm
+   ServerName shadow.com
+   ServerAlias *.shadow.com
+   RewriteEngine On
+   RewriteRule ^(/(cache|custom)/.*) /path/to/instances/%{SERVER_NAME}/$1
+</VirtualHost>
+```
 
 Instances should be in /path/to/instances/ in directories matching the
 host names.
@@ -131,7 +143,7 @@ shadow'=>array(
     'createDir' => true,
     'siTemplate' => '../instances/config_si.php',
     'addHost'=>false,
-    `“`ip`”` => `“`127.0.0.1`”`),
+    'ip' => '127.0.0.1' ),
 ```
 
 These are required for setting up instances but not used for running
