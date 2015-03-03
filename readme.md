@@ -7,7 +7,7 @@ PHP module
 Shadow is implemented as PHP extension. Compile it using:
 
 ```bash
-/path/to/php/install/bin/phpize 
+/path/to/php/install/bin/phpize
 ./configure --with-php-config=//path/to/php/install/bin/php-config
 make
 make install
@@ -146,7 +146,52 @@ shadow'=>array(
     'ip' => '127.0.0.1' ),
 ```
 
-These are required for setting up instances but not used for running
-instance once created.
 
--   instancePath - is the path (without the in
+These are required for setting up instances but not used for running instance once created.
+
+* instancePath - is the path (without the instance hostname) where instances are located
+* createDir - if instance directory should be created when it does not exist
+* siTemplate - file that gets placed into new instance directory as config_si.php for silent install. setup_db_database_name gets appended '_' and then server name with dots replaced by '_'s (e.g., sugarcrm to sugarcrm_somename_shadow_com), setup_site_url gets 'SERVER' replaced by current server name (so it should be like 'http://SERVER/'). If it's not set, nothing happens.
+* addHost - adds IP alias for this instance automatically to /etc/hosts when setup (see below)
+* ip - the IP used for adding alias above
+
+Full example:
+
+```php
+$shadow_config = array(
+    'mongo' => array(
+        'server' => '127.0.0.1',
+        'port' => '27017',
+        'username' => null,
+        'password' => null
+    ),
+    'shadow' => array(
+        'instancePath' => '/path/to/instances',
+        'addHost' => true,
+        'createDir' => true,
+        'siTemplate' => '/path/to/instances/config_si.php',
+        "ip" => "127.0.0.1"
+    )
+);
+```
+
+Note that if instance directory does not exist at runtime and createDir is set, it will be created automatically (but the instance record should be present in MongoDB for that!).
+
+Creating instance
+=================
+
+Use SugarExosphere.php to create new instances - see above for configurations used by it. Just enter the host name into the field, the rest is done automatically.
+
+Alternatively, adding record to MongoDB database 'exosphere' collection 'instances' will also produce instance if automatic creation (see above) is enabled:
+
+```json
+{
+   "key" : "cac6f23b011f8f89eb4b7279322a4431",
+   "server" : "some.shadow.com",
+   "path" :"/path/to/instances/some.shadow.com"
+}
+```
+
+key is arbitrary key, server must be the server name and path is full instance path.
+
+If automatic creation is disabled, you will also need to create the instance directory and then either run it through install or place suitable config_si.php in that directory and let silent install do it.
