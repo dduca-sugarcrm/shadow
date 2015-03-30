@@ -40,7 +40,9 @@ class SugarShadow{
 	{
 		$this->configCacheDir($path, dirname(__FILE__));
 		mkdir($path . '/custom', 0775, true);
-		$this->createSiTempate($path);
+        // createSiTempate няма {{{
+		//$this->createSiTempate($path);
+        // }}}
 	}
 
 	/**
@@ -104,7 +106,7 @@ class SugarShadow{
 			die ('<h3>Invalid SugarCRM Instance</h3>');
 		}else{
 			if(!file_exists($info['path'])){
-				if($this->config['shadow']['createDir']) {
+				if($shadow->config['shadow']['createDir']) {
 					$shadow->createInstance($info['path']);
 				} else {
 					die ('<h3>Invalid SugarCRM Instance</h3>');
