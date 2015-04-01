@@ -17,3 +17,16 @@ run-tests.php
 .libs/
 libtool
 modules/
+.idea
+.settings
+.buildpath
+tests/*.diff
+tests/*.exp
+tests/*.log
+tests/*.out
+tests/*.php
+tests/*.sh
+.project
+tests/instance/txt/sometext.txt
+tmp-php.ini
+
