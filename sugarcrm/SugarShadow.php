@@ -40,9 +40,10 @@ class SugarShadow{
 	{
 		$this->configCacheDir($path, dirname(__FILE__));
 		mkdir($path . '/custom', 0775, true);
-        // createSiTempate няма {{{
+		$this->createSiTempate($path);
+		// createSiTempate not exist {{{
 		//$this->createSiTempate($path);
-        // }}}
+		// }}}
 	}
 
 	/**

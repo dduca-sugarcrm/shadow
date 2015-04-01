@@ -20,11 +20,10 @@ class SugarShadow
     {
         $this->config = array(
                 'shadow' => array(
-                        //'instancePath' => '/var/www_dev/htdocs/template/',
-                        'instancePath' => '/var/www_dev/htdocs/instances',
+                        'instancePath' => '/mnt/sugar/shadowed',
                         'addHost' => true,
                         'createDir' => true,
-                        'siTemplate' => '/var/www_dev/htdocs/instances/one.shadow.stack.dev/config_si.php',
+                        'siTemplate' => '/mnt/sugar/config_si.php',
                         'ip' => '127.0.0.1'
                 )
         );
